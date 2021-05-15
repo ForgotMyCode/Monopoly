@@ -154,5 +154,7 @@ ArrayList* parseCSV(char* filename) {
         ArrayList_add(realties, &realty);
     }
 
+    fclose(f);
+
     return realties;
 }
