@@ -94,7 +94,7 @@ void Game_start(Game* game) {
 }
 
 bool Game_tryTransaction(Player* from, Player* to, long amount) {
-	printf(">> Transaction of $%d...\n", amount);
+	printf(">> Transaction of $%ld...\n", amount);
 
 	if (from == NULL) {
 		assert(to);

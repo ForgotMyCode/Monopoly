@@ -30,7 +30,7 @@ void Player_delete(Player* player) {
 void Player_print(Player* player) {
 	printf("-----\n");
 
-	printf("Money: %d\n", player->money);
+	printf("Money: %ld\n", player->money);
 	printf("Position: %d\n", player->position);
 	printf("Bankrupt: %d\n", player->bankrupt);
 
