@@ -13,6 +13,15 @@ void Player_super(Player* player) {
 }
 
 void Player_delete(Player* player) {
+	if (!player->bankrupt) {
+		for (int i = 0; i < player->ownedRealties->size; ++i) {
+			Realty* const realty = *((Realty**)ArrayList_get(player->ownedRealties, i));
+			Realty_delete(realty);
+		}
+	}
+
+	ArrayList_delete(player->ownedRealties);
+
 	if (player->playerType == PlayerType_BOT) {
 		Bot_delete(player);
 	}

@@ -22,12 +22,18 @@ Board* Board_new(char* filename) {
 
 	for (int i = 0; i < realties->size; ++i) {
 		Realty* realty = *((Realty**)ArrayList_get(realties, i));
+		Field_delete(board->fields[realtyIndices[i]]);
 		board->fields[realtyIndices[i]] = Field_new(realty->name, realty, Effect_realty);
 	}
+
+	ArrayList_delete(realties);
 
 	return board;
 }
 
 void Board_delete(Board* board) {
+	for (int i = 0; i < BOARD_SIZE; ++i) {
+		Field_delete(board->fields[i]);
+	}
 	free(board);
 }

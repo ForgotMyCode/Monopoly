@@ -17,6 +17,10 @@ Game* Game_new(const int playerCount) {
 }
 
 void Game_delete(Game* game) {
+	for (int i = 0; i < game->playerCount; ++i) {
+		Player_delete(game->players[i]);
+	}
+	Board_delete(game->board);
 	free(game->players);
 	free(game);
 }

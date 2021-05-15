@@ -27,6 +27,10 @@ void Field_delete(Field* field) {
 	free(field);
 }
 
+void Effect_notYetImplemented(Field* field, struct Game* game, struct Player* player) {
+	printf("[ERROR] Not yet implemented!\n");
+}
+
 void Effect_realty(Field* field, Game* game, Player* player) {
 	printf(">> Applying effect of realty...\n");
 	Realty* realty = (Realty*)field->extra;

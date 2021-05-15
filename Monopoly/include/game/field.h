@@ -17,8 +17,6 @@ struct Field* Field_new(char* label, void* extra, void (*apply)(Field* field, st
 
 void Field_delete(Field* field);
 
-inline void Effect_notYetImplemented(Field* field, struct Game* game, struct Player* player) {
-	printf("[ERROR] Not yet implemented!\n");
-}
+void Effect_notYetImplemented(Field* field, struct Game* game, struct Player* player);
 
 void Effect_realty(Field* field, struct Game* game, struct Player* player);
