@@ -2,20 +2,21 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+struct Game;
+struct Realty;
+
 #include <game/game.h>
 #include <util/arraylist.h>
 #include <game/bot.h>
 #include <game/realty.h>
-
-typedef struct Player Player;
-
-typedef union PlayerController PlayerController;
 
 typedef unsigned char PlayerType;
 
 union PlayerController {
 	struct Bot* asBot;
 };
+
+typedef union PlayerController PlayerController;
 
 struct Player {
 	PlayerType playerType;
@@ -25,6 +26,8 @@ struct Player {
 	long money;
 	bool bankrupt;
 };
+
+typedef struct Player Player;
 
 static const PlayerType PlayerType_BOT = 0;
 

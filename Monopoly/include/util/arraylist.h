@@ -2,14 +2,14 @@
 
 #define ARRAYLIST_BUFFER_DEFAULTSIZE 8
 
-typedef struct ArrayList ArrayList;
-
 struct ArrayList {
 	size_t size;
 	size_t itemSize;
 	size_t _buffer_size;
 	void* buffer;
 };
+
+typedef struct ArrayList ArrayList;
 
 ArrayList* ArrayList_new(size_t itemSize);
 

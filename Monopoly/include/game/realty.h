@@ -1,8 +1,8 @@
 #pragma once
 
-#include <game/player.h>
+struct Player;
 
-typedef struct Realty Realty; 
+#include <game/player.h>
 
 struct Realty {
 	char* name;
@@ -13,6 +13,8 @@ struct Realty {
 	long mortgage;
 	struct Player* owner;
 };
+
+typedef struct Realty Realty;
 
 Realty* Realty_new();
 

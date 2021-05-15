@@ -5,11 +5,11 @@
 
 #define BOARD_SIZE 40
 
-typedef struct Board Board;
-
 struct Board {
 	struct Field* fields[BOARD_SIZE];
 };
+
+typedef struct Board Board;
 
 struct Board* Board_new(char* filename);
 

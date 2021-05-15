@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct ArrayList;
+
 #include <util/arraylist.h>
 
 void readInt(int* n);

@@ -1,12 +1,16 @@
 #pragma once
 
-#include <game/player.h>
+struct Player;
+struct Game;
+struct Realty;
 
-typedef struct Bot Bot; 
+#include <game/player.h>
 
 struct Bot {
 	void* DELETEME;
 };
+
+typedef struct Bot Bot;
 
 struct Player* Bot_new();
 

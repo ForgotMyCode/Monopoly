@@ -1,17 +1,21 @@
 #pragma once
 #include <stdbool.h>
 
+struct Player;
+struct Board;
+struct Realty;
+
 #include <game/player.h>
 #include <game/board.h>
 #include <game/realty.h>
-
-typedef struct Game Game;
 
 struct Game {
 	int playerCount;
 	struct Player** players;
 	struct Board* board;
 };
+
+typedef struct Game Game;
 
 struct Game* Game_new(const int playerCount);
 
