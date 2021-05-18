@@ -150,8 +150,14 @@ void Game_onBankrupt(Game* game, Player* player, Player* creditor) {
 }
 
 void Game_print(Game* game) {
+	printf("---BOARD: Owned status: ---\n");
+	Board_print(game->board, BoardPrintMode_OWNEDSTATUS);
+	printf("---BOARD: Owners: ---\n");
+	Board_print(game->board, BoardPrintMode_OWNERS);
+
 	for (int i = 0; i < game->playerCount; ++i) {
 		printf("PLAYER n.%d:\n", i);
+		Board_printForPlayer(game->board, game->players[i]);
 		Player_print(game->players[i]);
 	}
 }

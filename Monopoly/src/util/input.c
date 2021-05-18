@@ -8,6 +8,7 @@
 #include <util/input.h>
 #include <game/realty.h>
 #include <config.h>
+#include <util/random.h>
 
 void readInt(int* n) {
 	register int c;
@@ -157,4 +158,12 @@ ArrayList* parseCSV(char* filename) {
 	fclose(f);
 
 	return realties;
+}
+
+void initializePrng() {
+	int value = -1;
+	for (int i = 0; i < PRNG_STATES_COUNT; ++i) {
+		readInt(&value);
+		seed_prng_state(i, value);
+	}
 }

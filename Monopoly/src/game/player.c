@@ -6,8 +6,11 @@
 #include <game/realty.h>
 
 void Player_super(Player* player) {
+	player->playerType = PlayerType_UNKNOWN;
+	player->playerController.asAnything = NULL;
 	player->ownedRealties = ArrayList_new(sizeof(Realty*));
 	player->money = 0;
+	player->id = -1;
 	player->bankrupt = false;
 	player->position = 0;
 }
@@ -28,13 +31,12 @@ void Player_delete(Player* player) {
 }
 
 void Player_print(Player* player) {
-	printf("-----\n");
+	printf("Player ID: %d\n", player->id);
+	printf("Balance: %ld\n", player->money);
+}
 
-	printf("Money: %ld\n", player->money);
-	printf("Position: %d\n", player->position);
-	printf("Bankrupt: %d\n", player->bankrupt);
-
-	printf("-----\n");
+void Player_printOnBoard(Player* player, int position) {
+	printf("%c", player->position == position ? '#' : '.');
 }
 
 int Player_throwDice(Player* player) {

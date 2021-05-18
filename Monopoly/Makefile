@@ -5,7 +5,7 @@ SRC_DIR := ./src
 
 SRCS := $(wildcard $(SRC_DIR)/*/*.c) $(wildcard $(SRC_DIR)/*.c)
 
-CFLAGS := -I./include -O2
+CFLAGS := -I./include -O0
 
 CC := gcc
 

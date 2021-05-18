@@ -11,3 +11,5 @@ void readInt(int* n);
 void freadLong(long* n, FILE* f);
 
 struct ArrayList* parseCSV(char* filename);
+
+void initializePrng();

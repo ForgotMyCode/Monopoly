@@ -5,11 +5,12 @@
 #include <game/player.h>
 #include <game/dice.h>
 
-Player* Bot_new() {
+Player* Bot_new(int id) {
 	Player* player = malloc(sizeof(Player));
 	assert(player);
 
 	Player_super(player);
+	player->id = id;
 
 	player->playerType = PlayerType_BOT;
 	player->playerController.asBot = malloc(sizeof(Bot));
@@ -30,7 +31,7 @@ int Bot_throwDice() {
 }
 
 void Bot_onRealtyEvent(Player* bot, Game* game, Realty* realty) {
-	if (realty->owner == NULL && bot->money >= realty->price) {
+	if (realty->owner == NULL && bot->money >= realty->price + 50) {
 		printf(">> Purchasing the realty %s...\n", realty->name);
 		Game_purchaseRealty(game, bot, realty);
 	}

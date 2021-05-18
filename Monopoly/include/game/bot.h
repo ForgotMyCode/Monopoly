@@ -12,7 +12,7 @@ struct Bot {
 
 typedef struct Bot Bot;
 
-struct Player* Bot_new();
+struct Player* Bot_new(int id);
 
 void Bot_delete(struct Player* bot);
 

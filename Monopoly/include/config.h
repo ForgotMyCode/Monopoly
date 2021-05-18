@@ -2,4 +2,4 @@
 
 #define NO_UNIX
 
-const static long Constant_moneyPerRound = 0L;
+const static long Constant_moneyPerRound = 1L;

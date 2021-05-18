@@ -9,10 +9,11 @@
 #include <util/arraylist.h>
 #include <util/input.h>
 
-Field* Field_new(char* label, void* extra, void (*apply)(Field* field, Game* game, Player* player)) {
+Field* Field_new(FieldType fieldType, char* label, void* extra, void (*apply)(Field* field, Game* game, Player* player)) {
 	Field* field = malloc(sizeof(Field));
 	assert(field);
 
+	field->fieldType = fieldType;
 	field->label = strdup(label);
 	field->apply = apply;
 	field->extra = extra;
@@ -25,6 +26,31 @@ void Field_delete(Field* field) {
 		free(field->label);
 	}
 	free(field);
+}
+
+void Field_printOwnedStatus(Field* field) {
+	if (field->fieldType == FieldType_REALTY) {
+		Realty* const realty = (Realty*)field->extra;
+		printf("%c", realty->owner == NULL ? 'U' : 'O');
+	}
+	else {
+		printf(".");
+	}
+}
+
+void Field_printOwner(Field* field) {
+	if (field->fieldType == FieldType_REALTY) {
+		Realty* const realty = (Realty*)field->extra;
+		if (realty->owner == NULL) {
+			printf(".");
+		}
+		else {
+			printf("%d", realty->owner->id);
+		}
+	}
+	else {
+		printf(".");
+	}
 }
 
 void Effect_notYetImplemented(Field* field, struct Game* game, struct Player* player) {
