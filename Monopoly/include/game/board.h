@@ -1,6 +1,8 @@
 #pragma once
 #include <stdio.h>
 
+struct Player;
+
 #include <game/field.h>
 
 #define BOARD_SIZE 40
