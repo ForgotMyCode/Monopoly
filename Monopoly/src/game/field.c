@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 
 #include <stdlib.h>
@@ -8,6 +9,8 @@
 #include <game/field.h>
 #include <util/arraylist.h>
 #include <util/input.h>
+#include <config.h>
+#include <util/mathutils.h>
 
 Field* Field_new(FieldType fieldType, char* label, void* extra, void (*apply)(Field* field, Game* game, Player* player)) {
 	Field* field = malloc(sizeof(Field));
@@ -72,17 +75,17 @@ void Effect_Tax(Field* field, Game* game, Player* player) {
 	long tax = 0;
 
 	if (field->fieldType == FieldType_TAX_INCOME) {
-		tax = max(player->netWorth / 10L, 200L);
+		tax = min(player->netWorth / 10L, Constant_incomeSolidTax);
 	}
 	else if (field->fieldType == FieldType_TAX_LUXURY) {
-		tax = 100L;
+		tax = Constant_luxuryTax;
 	}
 	else {
 		assert(false);
 	}
 
 	if (!Game_tryTransaction(player, NULL, tax)) {
-		// TODO
+		Game_onBankrupt(game, player, NULL);
 	}
 }
 

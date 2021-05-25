@@ -16,4 +16,4 @@ int Bot_throwDice(bool* isDouble);
 
 void Bot_onRealtyEvent(Player* bot, Game* game, Realty* realty);
 
-void Bot_onJailEvent(Player* player, Game* game);
+JailEscapeOption Bot_onJailEvent(Player* player, Game* game);

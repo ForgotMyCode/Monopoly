@@ -4,12 +4,14 @@
 
 #include <game/game.h>
 #include <config.h>
+#include <game/jail.h>
 
 Game* Game_new(const int playerCount) {
 	Game* game = malloc(sizeof(Game));
 	assert(game);
 
 	game->playerCount = playerCount;
+	game->activePlayers = 0;
 	game->players = malloc(sizeof(Player*) * playerCount);
 	game->board = Board_new("properties.csv");
 
@@ -50,9 +52,10 @@ void Game_addMoneyToAllPlayers(Game* game, long money) {
 }
 
 void Game_sendPlayerToJail(Game* game, Player* player) {
-	printf(">> Player sent to jail!");
+	printf(">> Player sent to jail!\n");
 	player->isInJail = true;
 	player->position = Board_getJailIndex();
+	player->failedJailEscapes = 0;
 }
 
 void Game_checkForGo(Player* currentPlayer) {
@@ -64,11 +67,37 @@ void Game_checkForGo(Player* currentPlayer) {
 	}
 }
 
-void Game_start(Game* game) {
-	int activePlayers = game->playerCount;
+void Game_finishMove(Game* game, Player* player) {
+	if (!player->bankrupt) {
+		++game->activePlayers;
+	}
+}
 
-	while (activePlayers > 1u) {
-		activePlayers = 0u;
+void Game_movePlayerForward(Game* game, Player* player, int diceThrow) {
+	printf(">> Moving player by %d.\n", diceThrow);
+
+	player->position += diceThrow;
+
+	Game_checkForGo(player);
+
+	printf(">> Steps on field %d...\n", player->position);
+
+	Field* const currentField = game->board->fields[player->position];
+	currentField->apply(currentField, game, player);
+}
+
+void Game_checkPlayerInJail(Game* game, Player* player) {
+	if (player->isInJail) {
+		JailEscapeOption jailEscapeOption = Player_onJailEvent(player, game);
+		Game_tryToGetOutOfJail(game, player, jailEscapeOption);
+	}
+}
+
+void Game_start(Game* game) {
+	game->activePlayers = game->playerCount;
+
+	while (game->activePlayers > 1u) {
+		game->activePlayers = 0u;
 		Game_print(game);
 		for (int player = 0; player < game->playerCount; ++player) {
 			printf("It's Player's %d turn...\n", player);
@@ -82,6 +111,19 @@ void Game_start(Game* game) {
 
 			Player_newRound(currentPlayer);
 
+			Game_checkPlayerInJail(game, currentPlayer);
+
+			if (currentPlayer->isInJail) {
+				Game_finishMove(game, currentPlayer);
+				continue;
+			}
+
+			if (currentPlayer->skipTurn) {
+				currentPlayer->skipTurn = false;
+				Game_finishMove(game, currentPlayer);
+				continue;
+			}
+
 			bool threwDouble = false;
 			do {
 				threwDouble = false;
@@ -94,22 +136,13 @@ void Game_start(Game* game) {
 				++currentPlayer->successiveDoubles;
 				if (currentPlayer->successiveDoubles >= Constant_doublesBeforeJail) {
 					Game_sendPlayerToJail(game, currentPlayer);
+					Game_finishMove(game, currentPlayer);
 					break;
 				}
 
-				currentPlayer->position += diceThrow;
-
-				Game_checkForGo(currentPlayer);
-
-				printf(">> Steps on field %d...\n", currentPlayer->position);
-
-				Field* const currentField = game->board->fields[currentPlayer->position];
-				currentField->apply(currentField, game, currentPlayer);
-
-				if (!currentPlayer->bankrupt) {
-					++activePlayers;
-				}
-			} while (threwDouble);
+				Game_movePlayerForward(game, currentPlayer, diceThrow);
+				Game_finishMove(game, currentPlayer);
+			} while (threwDouble && !currentPlayer->isInJail);
 		}
 	}
 	printf("\n --- GAME OVER --- \n");
@@ -141,8 +174,11 @@ bool Game_tryTransaction(Player* from, Player* to, long amount) {
 void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty) {
 	printf(">> Realty received: %s\n", realty->name);
 	realty->owner = player;
-	ArrayList_add(player->ownedRealties, &realty);
-	player->netWorth += realty->price;
+
+	if (player != NULL) {
+		ArrayList_add(player->ownedRealties, &realty);
+		player->netWorth += realty->price;
+	}
 }
 
 void Game_purchaseRealty(Game* game, Player* player, Realty* realty) {
@@ -170,6 +206,59 @@ void Game_onBankrupt(Game* game, Player* player, Player* creditor) {
 	if (player->money > 0L) {
 		Game_tryTransaction(player, creditor, player->money);
 	}
+}
+
+void Game_tryToGetOutOfJail(Game* game, Player* player, JailEscapeOption jailEscapeOption) {
+	printf(">> Player is trying to get out of jail...\n");
+	if (jailEscapeOption == JAIL_ESCAPE_OPTION_PAY) {
+		if (Game_tryTransaction(player, NULL, Constant_getOutOfJailFee)) {
+			printf(">> Paid fee...\n");
+			player->isInJail = false;
+			return;
+		}
+
+		printf("[WARN] Invalid move! Player don't have enough money to pay the jail escape fee!\n");
+		printf(">> Fix: Skipping turn instead...\n");
+
+		Game_tryToGetOutOfJail(game, player, JAIL_ESCAPE_OPTION_SKIP);
+
+		return;
+	}
+	if (jailEscapeOption == JAIL_ESCAPE_OPTION_ROLL) {
+		if (player->failedJailEscapes < Constant_maxFailedJailEscapes) {
+			printf(">> Rolls..\n");
+			++player->failedJailEscapes;
+
+			bool threwDouble = false;
+
+			int diceThrow = Player_throwDice(player, &threwDouble);
+
+			if (threwDouble) {
+				printf(">> Success!\n");
+				player->isInJail = false;
+				player->skipTurn = true;
+				Game_movePlayerForward(game, player, diceThrow);
+			}
+			printf(">> Failed...\n");
+			return;
+		}
+
+		printf("[WARN] Invalid move! Player already tried to escape too many times!\n");
+		printf(">> Fix: Skipping turn instead...\n");
+
+		Game_tryToGetOutOfJail(game, player, JAIL_ESCAPE_OPTION_SKIP);
+
+		return;
+	}
+	if (jailEscapeOption == JAIL_ESCAPE_OPTION_SKIP) {
+		printf(">> Skips...\n");
+		player->isInJail = false;
+		player->skipTurn = true;
+		return;
+	}
+
+	printf("[ERROR] Invalid jail escape option!\n");
+	assert(false);
 }
 
 void Game_print(Game* game) {

@@ -22,8 +22,10 @@ struct Player {
 	int position;
 	int id;
 	int successiveDoubles;
+	int failedJailEscapes;
 	bool bankrupt;
 	bool isInJail;
+	bool skipTurn;
 };
 
 static const PlayerType PlayerType_UNKNOWN = 0;
@@ -43,4 +45,4 @@ int Player_throwDice(Player* player, bool* isDouble);
 
 void Player_onRealtyEvent(Player* player, Game* game, Realty* realty);
 
-void Player_onJailEvent(Player* player, Game* game);
+JailEscapeOption Player_onJailEvent(Player* player, Game* game);

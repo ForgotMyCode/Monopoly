@@ -8,6 +8,7 @@
 
 struct Game {
 	int playerCount;
+	int activePlayers;
 	Player** players;
 	Board* board;
 };
@@ -30,6 +31,8 @@ void Game_sendPlayerToJail(Game* game, Player* player);
 
 void Game_start(Game* game);
 
+void Game_movePlayerForward(Game* game, Player* player, int diceThrow);
+
 bool Game_tryTransaction(Player* from,  Player* to, long amount);
 
 void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty);
@@ -37,5 +40,7 @@ void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty);
 void Game_purchaseRealty(Game* game, Player* player, Realty* realty);
 
 void Game_onBankrupt(Game* game, Player* player, Player* creditor);
+
+void Game_tryToGetOutOfJail(Game* game, Player* player, JailEscapeOption jailEscapeOption);
 
 void Game_print(Game* game);

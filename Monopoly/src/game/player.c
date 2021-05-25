@@ -5,6 +5,7 @@
 #include <game/bot.h>
 #include <game/game.h>
 #include <game/realty.h>
+#include <config.h>
 
 void Player_super(Player* player) {
 	player->playerType = PlayerType_UNKNOWN;
@@ -16,7 +17,9 @@ void Player_super(Player* player) {
 	player->bankrupt = false;
 	player->position = 0;
 	player->successiveDoubles = 0;
+	player->failedJailEscapes = 0;
 	player->isInJail = false;
+	player->skipTurn = false;
 }
 
 void Player_delete(Player* player) {
@@ -37,6 +40,11 @@ void Player_delete(Player* player) {
 void Player_print(Player* player) {
 	printf("Player ID: %d\n", player->id);
 	printf("Balance: %ld\n", player->money);
+	printf("Successive doubles: %d\n", player->successiveDoubles);
+	printf("Net Worth: %ld\n", player->netWorth);
+	printf("\n");
+	printf("In jail: %s\n", player->isInJail ? "true" : "false");
+	printf("Jail Rolls Remaining: %d\n", Constant_maxFailedJailEscapes - player->failedJailEscapes);
 }
 
 void Player_printOnBoard(Player* player, int position) {
@@ -66,10 +74,9 @@ void Player_onRealtyEvent(Player* player, Game* game, Realty* realty) {
 	assert(false);
 }
 
-void Player_onJailEvent(Player* player, Game* game) {
+JailEscapeOption Player_onJailEvent(Player* player, Game* game) {
 	if (player->playerType == PlayerType_BOT) {
-		Bot_onJailEvent(player, game);
-		return;
+		return Bot_onJailEvent(player, game);
 	}
 
 	printf("[ERROR] Invalid player type!\n");

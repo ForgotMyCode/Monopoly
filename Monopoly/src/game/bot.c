@@ -4,6 +4,8 @@
 #include <game/bot.h>
 #include <game/player.h>
 #include <game/dice.h>
+#include <game/jail.h>
+#include <config.h>
 
 Player* Bot_new(int id) {
 	Player* player = malloc(sizeof(Player));
@@ -40,6 +42,12 @@ void Bot_onRealtyEvent(Player* bot, Game* game, Realty* realty) {
 	}
 }
 
-void Bot_onJailEvent(Player* player, Game* game) {
-	// TODO
+JailEscapeOption Bot_onJailEvent(Player* player, Game* game) {
+	if (player->failedJailEscapes < Constant_maxFailedJailEscapes) {
+		return JAIL_ESCAPE_OPTION_ROLL;
+	}
+	if (player->money >= Constant_getOutOfJailFee) {
+		return JAIL_ESCAPE_OPTION_PAY;
+	}
+	return JAIL_ESCAPE_OPTION_SKIP;
 }
