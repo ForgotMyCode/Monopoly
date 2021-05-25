@@ -9,10 +9,13 @@ void Player_super(Player* player) {
 	player->playerType = PlayerType_UNKNOWN;
 	player->playerController.asAnything = NULL;
 	player->ownedRealties = ArrayList_new(sizeof(Realty*));
+	player->netWorth = 0;
 	player->money = 0;
 	player->id = -1;
 	player->bankrupt = false;
 	player->position = 0;
+	player->successiveDoubles = 0;
+	player->isInJail = false;
 }
 
 void Player_delete(Player* player) {

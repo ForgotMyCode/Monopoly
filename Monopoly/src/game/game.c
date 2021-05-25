@@ -120,6 +120,7 @@ void Game_playerReceiveRealty(Game* game, struct Player* player, struct Realty* 
 	printf(">> Realty received: %s\n", realty->name);
 	realty->owner = player;
 	ArrayList_add(player->ownedRealties, &realty);
+	player->netWorth += realty->price;
 }
 
 void Game_purchaseRealty(Game* game, Player* player, Realty* realty) {

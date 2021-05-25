@@ -1,10 +1,7 @@
 #pragma once
 #include <stdio.h>
 
-struct Field;
-struct Game;
-struct Player;
-
+#include <core.h>
 #include <game/game.h>
 #include <game/player.h>
 #include <game/realty.h>
@@ -20,8 +17,6 @@ struct Field {
 	void* extra;
 	FieldType fieldType;
 };
-
-typedef struct Field Field;
 
 struct Field* Field_new(FieldType fieldType, char* label, void* extra, void (*apply)(Field* field, struct Game* game, struct Player* player));
 

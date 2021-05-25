@@ -1,10 +1,7 @@
 #pragma once
 #include <stdbool.h>
 
-struct Player;
-struct Board;
-struct Realty;
-
+#include <core.h>
 #include <game/player.h>
 #include <game/board.h>
 #include <game/realty.h>
@@ -14,8 +11,6 @@ struct Game {
 	struct Player** players;
 	struct Board* board;
 };
-
-typedef struct Game Game;
 
 struct Game* Game_new(const int playerCount);
 
