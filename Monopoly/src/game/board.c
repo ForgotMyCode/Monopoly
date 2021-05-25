@@ -7,6 +7,8 @@
 #include <util/input.h>
 #include <util/arraylist.h>
 
+const int jailIndex = 10;
+
 Board* Board_new(char* filename) {
 	Board* board = malloc(sizeof(Board));
 	assert(board);
@@ -27,6 +29,22 @@ Board* Board_new(char* filename) {
 	}
 
 	ArrayList_delete(realties);
+
+	int incomeTaxIndex = 4;
+	Field_delete(board->fields[incomeTaxIndex]);
+	board->fields[incomeTaxIndex] = Field_new(FieldType_TAX_INCOME, "INCOME TAX", NULL, Effect_Tax);
+
+	int jailVisitIndex = 10;
+	Field_delete(board->fields[jailVisitIndex]);
+	board->fields[jailVisitIndex] = Field_new(FieldType_JAIL_VISIT, "VISIT JAIL", NULL, Effect_visitJail);
+
+	int goToJailIndex = 30;
+	Field_delete(board->fields[goToJailIndex]);
+	board->fields[goToJailIndex] = Field_new(FieldType_JAIL_GOTO, "GO TO JAIL", NULL, Effect_goToJail);
+
+	int luxuryTaxIndex = 38;
+	Field_delete(board->fields[luxuryTaxIndex]);
+	board->fields[luxuryTaxIndex] = Field_new(FieldType_TAX_LUXURY, "LUXURY TAX", NULL, Effect_Tax);
 
 	return board;
 }
@@ -94,4 +112,8 @@ void Board_printForPlayer(Board* board, Player* player) {
 	}
 	printf("\n");
 	
+}
+
+int Board_getJailIndex() {
+	return jailIndex;
 }

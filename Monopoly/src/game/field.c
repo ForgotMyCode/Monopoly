@@ -67,3 +67,29 @@ void Effect_realty(Field* field, Game* game, Player* player) {
 	}
 	Player_onRealtyEvent(player, game, realty);
 }
+
+void Effect_Tax(Field* field, Game* game, Player* player) {
+	long tax = 0;
+
+	if (field->fieldType == FieldType_TAX_INCOME) {
+		tax = max(player->netWorth / 10L, 200L);
+	}
+	else if (field->fieldType == FieldType_TAX_LUXURY) {
+		tax = 100L;
+	}
+	else {
+		assert(false);
+	}
+
+	if (!Game_tryTransaction(player, NULL, tax)) {
+		// TODO
+	}
+}
+
+void Effect_goToJail(Field* field, Game* game, Player* player) {
+	Game_sendPlayerToJail(game, player);
+}
+
+void Effect_visitJail(Field* field, Game* game, Player* player) {
+	
+}

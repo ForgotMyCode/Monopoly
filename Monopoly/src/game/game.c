@@ -50,7 +50,9 @@ void Game_addMoneyToAllPlayers(Game* game, long money) {
 }
 
 void Game_sendPlayerToJail(Game* game, Player* player) {
-	// TODO
+	printf(">> Player sent to jail!");
+	player->isInJail = true;
+	player->position = Board_getJailIndex();
 }
 
 void Game_checkForGo(Player* currentPlayer) {

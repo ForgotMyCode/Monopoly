@@ -43,6 +43,4 @@ int Player_throwDice(Player* player, bool* isDouble);
 
 void Player_onRealtyEvent(Player* player, Game* game, Realty* realty);
 
-
-
-
+void Player_onJailEvent(Player* player, Game* game);

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 #include <game/player.h>
 #include <game/bot.h>
@@ -61,5 +62,16 @@ void Player_onRealtyEvent(Player* player, Game* game, Realty* realty) {
 		return;
 	}
 
-	printf("[ERROR] Invalid player type!\n");	
+	printf("[ERROR] Invalid player type!\n");
+	assert(false);
+}
+
+void Player_onJailEvent(Player* player, Game* game) {
+	if (player->playerType == PlayerType_BOT) {
+		Bot_onJailEvent(player, game);
+		return;
+	}
+
+	printf("[ERROR] Invalid player type!\n");
+	assert(false);
 }

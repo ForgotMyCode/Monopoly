@@ -26,6 +26,8 @@ void Game_addMoneyToPlayer(Game* game, int playerIndex, long money);
 
 void Game_addMoneyToAllPlayers(Game* game, long money);
 
+void Game_sendPlayerToJail(Game* game, Player* player);
+
 void Game_start(Game* game);
 
 bool Game_tryTransaction(Player* from,  Player* to, long amount);

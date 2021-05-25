@@ -39,3 +39,7 @@ void Bot_onRealtyEvent(Player* bot, Game* game, Realty* realty) {
 		Game_purchaseRealty(game, bot, realty);
 	}
 }
+
+void Bot_onJailEvent(Player* player, Game* game) {
+	// TODO
+}

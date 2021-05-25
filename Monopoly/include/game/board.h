@@ -20,3 +20,5 @@ void Board_delete(Board* board);
 void Board_print(Board* field, const BoardPrintMode printMode);
 
 void Board_printForPlayer(Board* board, Player* player);
+
+int Board_getJailIndex();
