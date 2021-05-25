@@ -42,9 +42,13 @@ void Player_printOnBoard(Player* player, int position) {
 	printf("%c", player->position == position ? '#' : '.');
 }
 
-int Player_throwDice(Player* player) {
+void Player_newRound(Player* player) {
+	player->successiveDoubles = 0;
+}
+
+int Player_throwDice(Player* player, bool* isDouble) {
 	if (player->playerType == PlayerType_BOT) {
-		return Bot_throwDice();
+		return Bot_throwDice(isDouble);
 	}
 	
 	printf("[ERROR] Invalid player type!\n");

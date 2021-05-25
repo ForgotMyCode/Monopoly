@@ -49,6 +49,19 @@ void Game_addMoneyToAllPlayers(Game* game, long money) {
 	}
 }
 
+void Game_sendPlayerToJail(Game* game, Player* player) {
+	// TODO
+}
+
+void Game_checkForGo(Player* currentPlayer) {
+	while (currentPlayer->position >= BOARD_SIZE) {
+		printf(">> Round finished!\n");
+		// round finished
+		currentPlayer->position -= BOARD_SIZE;
+		Game_tryTransaction(NULL, currentPlayer, Constant_moneyPerRound);
+	}
+}
+
 void Game_start(Game* game) {
 	int activePlayers = game->playerCount;
 
@@ -65,29 +78,36 @@ void Game_start(Game* game) {
 				continue;
 			}
 
-			int diceThrow = Player_throwDice(currentPlayer);
-			assert(diceThrow >= 2 && diceThrow <= 12);
+			Player_newRound(currentPlayer);
 
-			printf(">> Threw %d total!\n", diceThrow);
+			bool threwDouble = false;
+			do {
+				threwDouble = false;
 
-			currentPlayer->position += diceThrow;
+				int diceThrow = Player_throwDice(currentPlayer, &threwDouble);
+				assert(diceThrow >= 2 && diceThrow <= 12);
 
+				printf(">> Threw %d total! It was %sa double!\n", diceThrow, threwDouble ? "" : "not ");
 
-			while (currentPlayer->position >= BOARD_SIZE) {
-				printf(">> Round finished!\n");
-				// round finished
-				currentPlayer->position -= BOARD_SIZE;
-				Game_tryTransaction(NULL, currentPlayer, Constant_moneyPerRound);
-			}
+				++currentPlayer->successiveDoubles;
+				if (currentPlayer->successiveDoubles >= Constant_doublesBeforeJail) {
+					Game_sendPlayerToJail(game, currentPlayer);
+					break;
+				}
 
-			printf(">> Steps on field %d...\n", currentPlayer->position);
+				currentPlayer->position += diceThrow;
 
-			Field* const currentField = game->board->fields[currentPlayer->position];
-			currentField->apply(currentField, game, currentPlayer);
+				Game_checkForGo(currentPlayer);
 
-			if (!currentPlayer->bankrupt) {
-				++activePlayers;
-			}
+				printf(">> Steps on field %d...\n", currentPlayer->position);
+
+				Field* const currentField = game->board->fields[currentPlayer->position];
+				currentField->apply(currentField, game, currentPlayer);
+
+				if (!currentPlayer->bankrupt) {
+					++activePlayers;
+				}
+			} while (threwDouble);
 		}
 	}
 	printf("\n --- GAME OVER --- \n");

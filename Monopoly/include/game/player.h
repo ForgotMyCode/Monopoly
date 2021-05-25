@@ -35,9 +35,11 @@ void Player_delete(Player* player);
 
 void Player_print(Player* player);
 
+void Player_newRound(Player* player);
+
 void Player_printOnBoard(Player* player, int position);
 
-int Player_throwDice(Player* player);
+int Player_throwDice(Player* player, bool* isDouble);
 
 void Player_onRealtyEvent(Player* player, Game* game, Realty* realty);
 

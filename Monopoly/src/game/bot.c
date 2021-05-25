@@ -24,9 +24,12 @@ void Bot_delete(Player* bot) {
 	free(bot);
 }
 
-int Bot_throwDice() {
+int Bot_throwDice(bool* isDouble) {
 	const int dieResult1 = Dice_throw();
 	const int dieResult2 = Dice_throw();
+	
+	*isDouble = dieResult1 == dieResult2;
+
 	return dieResult1 + dieResult2;
 }
 
