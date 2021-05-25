@@ -6,6 +6,8 @@
 #define FWDU(type)	union type; typedef union type type;
 
 // declarations of structures and unions
+FWDS(ArrayList)
+
 FWDS(Board)
 
 FWDS(Bot)
@@ -24,3 +26,5 @@ FWDS(Realty)
 typedef unsigned char PlayerType;
 
 typedef unsigned char BoardPrintMode;
+
+typedef unsigned char FieldType;

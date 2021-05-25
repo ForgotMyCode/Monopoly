@@ -6,10 +6,10 @@ struct Bot {
 	void* DELETEME;
 };
 
-struct Player* Bot_new(int id);
+Player* Bot_new(int id);
 
-void Bot_delete(struct Player* bot);
+void Bot_delete(Player* bot);
 
 int Bot_throwDice();
 
-void Bot_onRealtyEvent(struct Player* bot, struct Game* game, struct Realty* realty);
+void Bot_onRealtyEvent(Player* bot, Game* game, Realty* realty);

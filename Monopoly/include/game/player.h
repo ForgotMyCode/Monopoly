@@ -10,13 +10,13 @@
 
 union PlayerController {
 	void* asAnything;
-	struct Bot* asBot;
+	Bot* asBot;
 };
 
 struct Player {
 	PlayerType playerType;
-	union PlayerController playerController;
-	struct ArrayList* ownedRealties;
+	PlayerController playerController;
+	ArrayList* ownedRealties;
 	long money;
 	long netWorth;
 	int position;
@@ -39,7 +39,7 @@ void Player_printOnBoard(Player* player, int position);
 
 int Player_throwDice(Player* player);
 
-void Player_onRealtyEvent(Player* player, struct Game* game, struct Realty* realty);
+void Player_onRealtyEvent(Player* player, Game* game, Realty* realty);
 
 
 

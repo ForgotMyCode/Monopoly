@@ -1,5 +1,7 @@
 #pragma once
 
+#include <core.h>
+
 #define ARRAYLIST_BUFFER_DEFAULTSIZE 8
 
 struct ArrayList {
@@ -8,8 +10,6 @@ struct ArrayList {
 	size_t _buffer_size;
 	void* buffer;
 };
-
-typedef struct ArrayList ArrayList;
 
 ArrayList* ArrayList_new(size_t itemSize);
 

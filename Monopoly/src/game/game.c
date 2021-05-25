@@ -116,7 +116,7 @@ bool Game_tryTransaction(Player* from, Player* to, long amount) {
 	return true;
 }
 
-void Game_playerReceiveRealty(Game* game, struct Player* player, struct Realty* realty) {
+void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty) {
 	printf(">> Realty received: %s\n", realty->name);
 	realty->owner = player;
 	ArrayList_add(player->ownedRealties, &realty);

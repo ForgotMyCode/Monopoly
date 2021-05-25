@@ -9,7 +9,7 @@ struct Realty {
 	long rent[5];
 	long rentHotel;
 	long mortgage;
-	struct Player* owner;
+	Player* owner;
 };
 
 Realty* Realty_new();

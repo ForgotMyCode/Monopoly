@@ -53,7 +53,7 @@ void Field_printOwner(Field* field) {
 	}
 }
 
-void Effect_notYetImplemented(Field* field, struct Game* game, struct Player* player) {
+void Effect_notYetImplemented(Field* field, Game* game, Player* player) {
 	printf("[ERROR] Not yet implemented!\n");
 }
 
