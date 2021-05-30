@@ -11,6 +11,8 @@ static const BoardPrintMode BoardPrintMode_OWNERS = 1;
 
 struct Board {
 	Field* fields[BOARD_SIZE];
+	ArrayList* realties;
+	Rail* railroads[4];
 };
 
 Board* Board_new(char* filename);

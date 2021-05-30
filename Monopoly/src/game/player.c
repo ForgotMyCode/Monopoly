@@ -25,18 +25,6 @@ void Player_super(Player* player) {
 }
 
 void Player_delete(Player* player) {
-	if (!player->bankrupt) {
-		for (int i = 0; i < player->ownedRealties->size; ++i) {
-			Realty* const realty = *((Realty**)ArrayList_get(player->ownedRealties, i));
-			Realty_delete(realty);
-		}
-
-		for (int i = 0; i < player->ownedRails->size; ++i) {
-			Rail* const rail = *((Rail**)ArrayList_get(player->ownedRails, i));
-			Rail_delete(rail);
-		}
-	}
-
 	ArrayList_delete(player->ownedRealties);
 	ArrayList_delete(player->ownedRails);
 

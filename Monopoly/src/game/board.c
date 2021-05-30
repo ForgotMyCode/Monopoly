@@ -19,16 +19,14 @@ Board* Board_new(char* filename) {
 
 	int realtyIndices[] = {1, 3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 37, 39};
 	
-	ArrayList* realties = parseCSV(filename);
-	assert(realties->size == sizeof(realtyIndices) / sizeof(*realtyIndices));
+	board->realties = parseCSV(filename);
+	assert(board->realties->size == sizeof(realtyIndices) / sizeof(*realtyIndices));
 
-	for (int i = 0; i < realties->size; ++i) {
-		Realty* realty = *((Realty**)ArrayList_get(realties, i));
+	for (int i = 0; i < board->realties->size; ++i) {
+		Realty* realty = *((Realty**)ArrayList_get(board->realties, i));
 		Field_delete(board->fields[realtyIndices[i]]);
 		board->fields[realtyIndices[i]] = Field_new(FieldType_REALTY, realty->name, realty, Effect_realty);
 	}
-
-	ArrayList_delete(realties);
 
 	int incomeTaxIndex = 4;
 	Field_delete(board->fields[incomeTaxIndex]);
@@ -56,6 +54,7 @@ Board* Board_new(char* filename) {
 	railroad = Rail_new(railName);
 	Field_delete(board->fields[railIndex]);
 	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+	board->railroads[0] = railroad;
 
 	// rail 2
 	railIndex = 15;
@@ -63,6 +62,7 @@ Board* Board_new(char* filename) {
 	railroad = Rail_new(railName);
 	Field_delete(board->fields[railIndex]);
 	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+	board->railroads[1] = railroad;
 
 	// rail 3
 	railIndex = 25;
@@ -70,6 +70,7 @@ Board* Board_new(char* filename) {
 	railroad = Rail_new(railName);
 	Field_delete(board->fields[railIndex]);
 	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+	board->railroads[2] = railroad;
 
 	// rail 4
 	railIndex = 35;
@@ -77,6 +78,7 @@ Board* Board_new(char* filename) {
 	railroad = Rail_new(railName);
 	Field_delete(board->fields[railIndex]);
 	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+	board->railroads[3] = railroad;
 
 	return board;
 }
@@ -85,6 +87,17 @@ void Board_delete(Board* board) {
 	for (int i = 0; i < BOARD_SIZE; ++i) {
 		Field_delete(board->fields[i]);
 	}
+
+	for (int i = 0; i < board->realties->size; ++i) {
+		Realty* realty = *((Realty**)ArrayList_get(board->realties, i));
+		Realty_delete(realty);
+	}
+	ArrayList_delete(board->realties);
+
+	for (int i = 0; i < 4; ++i) {
+		Rail_delete(board->railroads[i]);
+	}
+
 	free(board);
 }
 
