@@ -24,6 +24,8 @@ FWDS(Rail)
 
 FWDS(Realty)
 
+FWDS(Utility)
+
 // definitions of other types
 typedef unsigned char PlayerType;
 

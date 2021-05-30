@@ -6,6 +6,7 @@
 #include <game/dice.h>
 #include <game/jail.h>
 #include <config.h>
+#include <game/utility.h>
 
 Player* Bot_new(int id) {
 	Player* player = malloc(sizeof(Player));
@@ -46,6 +47,13 @@ void Bot_onRailroadEvent(Player* bot, Game* game, Rail* rail) {
 	if (rail->owner == NULL && bot->money >= rail->price + 50) {
 		printf(">> Purchasing the railroad %s...\n", rail->name);
 		Game_purchaseRailroad(game, bot, rail);
+	}
+}
+
+void Bot_onUtilityEvent(Player* bot, Game* game, Utility* utility) {
+	if (utility->owner == NULL && bot->money >= utility->price + 50) {
+		printf(">> Purchasing the utility %s...\n", utility->name);
+		Game_purchaseUtility(game, bot, utility);
 	}
 }
 

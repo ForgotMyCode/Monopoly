@@ -13,6 +13,7 @@ void Player_super(Player* player) {
 	player->playerController.asAnything = NULL;
 	player->ownedRealties = ArrayList_new(sizeof(Realty*));
 	player->ownedRails = ArrayList_new(sizeof(Rail*));
+	player->ownedUtilities = ArrayList_new(sizeof(Utility*));
 	player->netWorth = 0;
 	player->money = 0;
 	player->id = -1;
@@ -27,6 +28,7 @@ void Player_super(Player* player) {
 void Player_delete(Player* player) {
 	ArrayList_delete(player->ownedRealties);
 	ArrayList_delete(player->ownedRails);
+	ArrayList_delete(player->ownedUtilities);
 
 	if (player->playerType == PlayerType_BOT) {
 		Bot_delete(player);
@@ -73,6 +75,16 @@ void Player_onRealtyEvent(Player* player, Game* game, Realty* realty) {
 void Player_onRailroadEvent(Player* player, Game* game, Rail* rail) {
 	if (player->playerType == PlayerType_BOT) {
 		Bot_onRailroadEvent(player, game, rail);
+		return;
+	}
+
+	printf("[ERROR] Invalid player type!\n");
+	assert(false);
+}
+
+void Player_onUtilityEvent(Player* player, Game* game, Utility* utility) {
+	if (player->playerType == PlayerType_BOT) {
+		Bot_onUtilityEvent(player, game, utility);
 		return;
 	}
 

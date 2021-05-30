@@ -23,3 +23,9 @@ const static long Constant_railRent2 = 50L;
 const static long Constant_railRent3 = 100L;
 
 const static long Constant_railRent4 = 200L;
+
+const static long Constant_utilityCost = 150L;
+
+const static long Constant_utilityMultiplier1 = 4L;
+
+const static long Constant_utilityMultiplier2 = 10L;

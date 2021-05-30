@@ -14,6 +14,7 @@ static const FieldType FieldType_TAX_LUXURY = 3;
 static const FieldType FieldType_JAIL_VISIT = 4;
 static const FieldType FieldType_JAIL_GOTO = 5;
 static const FieldType FieldType_RAILROAD = 6;
+static const FieldType FieldType_UTILITY = 7;
 
 struct Field {
 	void (*apply)(Field* field, Game* game, Player* player);
@@ -41,3 +42,5 @@ void Effect_goToJail(Field* field, Game* game, Player* player);
 void Effect_visitJail(Field* field, Game* game, Player* player);
 
 void Effect_railroad(Field* field, Game* game, Player* player);
+
+void Effect_utility(Field* field, Game* game, Player* player);

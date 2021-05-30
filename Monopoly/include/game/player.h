@@ -19,6 +19,7 @@ struct Player {
 	PlayerController playerController;
 	ArrayList* ownedRealties;
 	ArrayList* ownedRails;
+	ArrayList* ownedUtilities;
 	long money;
 	long netWorth;
 	int position;
@@ -48,5 +49,7 @@ int Player_throwDice(Player* player, bool* isDouble);
 void Player_onRealtyEvent(Player* player, Game* game, Realty* realty);
 
 void Player_onRailroadEvent(Player* player, Game* game, Rail* rail);
+
+void Player_onUtilityEvent(Player* player, Game* game, Utility* utility);
 
 JailEscapeOption Player_onJailEvent(Player* player, Game* game);

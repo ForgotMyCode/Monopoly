@@ -8,6 +8,7 @@
 #include <util/input.h>
 #include <config.h>
 #include <util/mathutils.h>
+#include <game/utility.h>
 
 Field* Field_new(FieldType fieldType, char* label, void* extra, void (*apply)(Field* field, Game* game, Player* player)) {
 	Field* field = malloc(sizeof(Field));
@@ -106,4 +107,33 @@ void Effect_railroad(Field* field, Game* game, Player* player) {
 		}
 	}
 	Player_onRailroadEvent(player, game, rail);
+}
+
+void Effect_utility(Field* field, Game* game, Player* player) {
+	printf(">> Applying effect of utility...\n");
+	Utility* utility = (Utility*)field->extra;
+	assert(utility);
+
+	if (utility->owner != NULL && player != utility->owner) {
+		assert(utility->owner->ownedRails->size - 1 >= 0);
+
+		long multiplier = 0L;
+		if (utility->owner->ownedUtilities->size == 1) {
+			multiplier = Constant_utilityMultiplier1;
+		}
+		else if (utility->owner->ownedUtilities->size == 2) {
+			multiplier = Constant_utilityMultiplier2;
+		}
+		else {
+			printf("[ERROR] Invalid amount of owned utilities: %lu\n", utility->owner->ownedUtilities->size);
+			assert(false);
+		}
+
+		long lastRoll = (long) game->diceRoll;
+
+		if (!Game_tryTransaction(player, utility->owner, lastRoll * multiplier)) {
+			Game_onBankrupt(game, player, utility->owner);
+		}
+	}
+	Player_onUtilityEvent(player, game, utility);
 }

@@ -80,6 +80,26 @@ Board* Board_new(char* filename) {
 	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
 	board->railroads[3] = railroad;
 
+	int utilityIndex;
+	char* utilityName;
+	Utility* utility;
+
+	// utility 1
+	utilityIndex = 12;
+	utilityName = "Electric Company";
+	utility = Utility_new(utilityName);
+	Field_delete(board->fields[utilityIndex]);
+	board->fields[utilityIndex] = Field_new(FieldType_UTILITY, utilityName, utility, Effect_utility);
+	board->utilities[0] = utility;
+
+	// utility 2
+	utilityIndex = 28;
+	utilityName = "Water Works";
+	utility = Utility_new(utilityName);
+	Field_delete(board->fields[utilityIndex]);
+	board->fields[utilityIndex] = Field_new(FieldType_UTILITY, utilityName, utility, Effect_utility);
+	board->utilities[1] = utility;
+
 	return board;
 }
 
@@ -96,6 +116,10 @@ void Board_delete(Board* board) {
 
 	for (int i = 0; i < 4; ++i) {
 		Rail_delete(board->railroads[i]);
+	}
+
+	for (int i = 0; i < 2; ++i) {
+		Utility_delete(board->utilities[i]);
 	}
 
 	free(board);

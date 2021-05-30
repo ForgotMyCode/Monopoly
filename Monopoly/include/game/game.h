@@ -5,10 +5,13 @@
 #include <game/player.h>
 #include <game/board.h>
 #include <game/realty.h>
+#include <game/rail.h>
+#include <game/utility.h>
 
 struct Game {
 	int playerCount;
 	int activePlayers;
+	int diceRoll;
 	Player** players;
 	Board* board;
 };
@@ -39,9 +42,13 @@ void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty);
 
 void Game_playerReceiveRailroad(Game* game, Player* player, Rail* rail);
 
+void Game_playerReceiveUtility(Game* game, Player* player, Utility* utility);
+
 void Game_purchaseRealty(Game* game, Player* player, Realty* realty);
 
 void Game_purchaseRailroad(Game* game, Player* player, Rail* rail);
+
+void Game_purchaseUtility(Game* game, Player* player, Utility* utility);
 
 void Game_onBankrupt(Game* game, Player* player, Player* creditor);
 

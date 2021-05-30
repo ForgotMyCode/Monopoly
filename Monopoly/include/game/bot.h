@@ -18,4 +18,6 @@ void Bot_onRealtyEvent(Player* bot, Game* game, Realty* realty);
 
 void Bot_onRailroadEvent(Player* bot, Game* game, Rail* rail);
 
+void Bot_onUtilityEvent(Player* bot, Game* game, Utility* utility);
+
 JailEscapeOption Bot_onJailEvent(Player* player, Game* game);

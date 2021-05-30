@@ -13,6 +13,7 @@ struct Board {
 	Field* fields[BOARD_SIZE];
 	ArrayList* realties;
 	Rail* railroads[4];
+	Utility* utilities[2];
 };
 
 Board* Board_new(char* filename);

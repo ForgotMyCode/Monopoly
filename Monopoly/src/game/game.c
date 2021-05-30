@@ -12,6 +12,7 @@ Game* Game_new(const int playerCount) {
 
 	game->playerCount = playerCount;
 	game->activePlayers = 0;
+	game->diceRoll = 0;
 	game->players = malloc(sizeof(Player*) * playerCount);
 	game->board = Board_new("properties.csv");
 
@@ -128,10 +129,10 @@ void Game_start(Game* game) {
 			do {
 				threwDouble = false;
 
-				int diceThrow = Player_throwDice(currentPlayer, &threwDouble);
-				assert(diceThrow >= 2 && diceThrow <= 12);
+				game->diceRoll = Player_throwDice(currentPlayer, &threwDouble);
+				assert(game->diceRoll >= 2 && game->diceRoll <= 12);
 
-				printf(">> Threw %d total! It was %sa double!\n", diceThrow, threwDouble ? "" : "not ");
+				printf(">> Threw %d total! It was %sa double!\n", game->diceRoll, threwDouble ? "" : "not ");
 
 				++currentPlayer->successiveDoubles;
 				if (currentPlayer->successiveDoubles >= Constant_doublesBeforeJail) {
@@ -140,7 +141,7 @@ void Game_start(Game* game) {
 					break;
 				}
 
-				Game_movePlayerForward(game, currentPlayer, diceThrow);
+				Game_movePlayerForward(game, currentPlayer, game->diceRoll);
 				Game_finishMove(game, currentPlayer);
 			} while (threwDouble && !currentPlayer->isInJail);
 		}
@@ -191,6 +192,16 @@ void Game_playerReceiveRailroad(Game* game, Player* player, Rail* rail) {
 	}
 }
 
+void Game_playerReceiveUtility(Game* game, Player* player, Utility* utility) {
+	printf(">> Utility received: %s\n", utility->name);
+	utility->owner = player;
+
+	if (player != NULL) {
+		ArrayList_add(player->ownedUtilities, &utility);
+		player->netWorth += utility->price;
+	}
+}
+
 void Game_purchaseRealty(Game* game, Player* player, Realty* realty) {
 	if (realty->owner != NULL) {
 		printf("[WARN] Player did an invalid move! Cannot buy owned property!\n");
@@ -217,6 +228,20 @@ void Game_purchaseRailroad(Game* game, Player* player, Rail* rail) {
 	}
 
 	Game_playerReceiveRailroad(game, player, rail);
+}
+
+void Game_purchaseUtility(Game* game, Player* player, Utility* utility) {
+	if (utility->owner != NULL) {
+		printf("[WARN] Player did an invalid move! Cannot buy owned property!\n");
+		return;
+	}
+
+	if (!Game_tryTransaction(player, NULL, utility->price)) {
+		printf("[WARN] Player did an invalid move! Not enough money!");
+		return;
+	}
+
+	Game_playerReceiveUtility(game, player, utility);
 }
 
 void Game_onBankrupt(Game* game, Player* player, Player* creditor) {
@@ -260,13 +285,13 @@ void Game_tryToGetOutOfJail(Game* game, Player* player, JailEscapeOption jailEsc
 
 			bool threwDouble = false;
 
-			int diceThrow = Player_throwDice(player, &threwDouble);
+			game->diceRoll = Player_throwDice(player, &threwDouble);
 
 			if (threwDouble) {
 				printf(">> Success!\n");
 				player->isInJail = false;
 				player->skipTurn = true;
-				Game_movePlayerForward(game, player, diceThrow);
+				Game_movePlayerForward(game, player, game->diceRoll);
 			}
 			printf(">> Failed...\n");
 			return;
