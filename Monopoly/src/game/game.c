@@ -181,6 +181,16 @@ void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty) {
 	}
 }
 
+void Game_playerReceiveRailroad(Game* game, Player* player, Rail* rail) {
+	printf(">> Railroad received: %s\n", rail->name);
+	rail->owner = player;
+
+	if (player != NULL) {
+		ArrayList_add(player->ownedRails, &rail);
+		player->netWorth += rail->price;
+	}
+}
+
 void Game_purchaseRealty(Game* game, Player* player, Realty* realty) {
 	if (realty->owner != NULL) {
 		printf("[WARN] Player did an invalid move! Cannot buy owned property!\n");
@@ -195,12 +205,31 @@ void Game_purchaseRealty(Game* game, Player* player, Realty* realty) {
 	Game_playerReceiveRealty(game, player, realty);
 }
 
+void Game_purchaseRailroad(Game* game, Player* player, Rail* rail) {
+	if (rail->owner != NULL) {
+		printf("[WARN] Player did an invalid move! Cannot buy owned property!\n");
+		return;
+	}
+
+	if (!Game_tryTransaction(player, NULL, rail->price)) {
+		printf("[WARN] Player did an invalid move! Not enough money!");
+		return;
+	}
+
+	Game_playerReceiveRailroad(game, player, rail);
+}
+
 void Game_onBankrupt(Game* game, Player* player, Player* creditor) {
 	player->bankrupt = true;
 
 	for (int i = 0; i < player->ownedRealties->size; ++i) {
 		Realty* const realty = *((Realty**)ArrayList_get(player->ownedRealties, i));
 		Game_playerReceiveRealty(game, creditor, realty);
+	}
+
+	for (int i = 0; i < player->ownedRails->size; ++i) {
+		Rail* const rail = *((Rail**)ArrayList_get(player->ownedRails, i));
+		Game_playerReceiveRailroad(game, creditor, rail);
 	}
 
 	if (player->money > 0L) {

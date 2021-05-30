@@ -42,6 +42,13 @@ void Bot_onRealtyEvent(Player* bot, Game* game, Realty* realty) {
 	}
 }
 
+void Bot_onRailroadEvent(Player* bot, Game* game, Rail* rail) {
+	if (rail->owner == NULL && bot->money >= rail->price + 50) {
+		printf(">> Purchasing the railroad %s...\n", rail->name);
+		Game_purchaseRailroad(game, bot, rail);
+	}
+}
+
 JailEscapeOption Bot_onJailEvent(Player* player, Game* game) {
 	if (player->failedJailEscapes < Constant_maxFailedJailEscapes) {
 		return JAIL_ESCAPE_OPTION_ROLL;

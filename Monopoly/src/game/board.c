@@ -46,6 +46,38 @@ Board* Board_new(char* filename) {
 	Field_delete(board->fields[luxuryTaxIndex]);
 	board->fields[luxuryTaxIndex] = Field_new(FieldType_TAX_LUXURY, "LUXURY TAX", NULL, Effect_Tax);
 
+	int railIndex;
+	char* railName;
+	Rail* railroad;
+	
+	// rail 1
+	railIndex = 5;
+	railName = "Reading Railroad";
+	railroad = Rail_new(railName);
+	Field_delete(board->fields[railIndex]);
+	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+
+	// rail 2
+	railIndex = 15;
+	railName = "Pennsylvania Railroad";
+	railroad = Rail_new(railName);
+	Field_delete(board->fields[railIndex]);
+	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+
+	// rail 3
+	railIndex = 25;
+	railName = "B. & O. Railroad";
+	railroad = Rail_new(railName);
+	Field_delete(board->fields[railIndex]);
+	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+
+	// rail 4
+	railIndex = 35;
+	railName = "Short Line";
+	railroad = Rail_new(railName);
+	Field_delete(board->fields[railIndex]);
+	board->fields[railIndex] = Field_new(FieldType_RAILROAD, railName, railroad, Effect_railroad);
+
 	return board;
 }
 

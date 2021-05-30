@@ -20,6 +20,8 @@ FWDU(PlayerController)
 
 FWDS(Player)
 
+FWDS(Rail)
+
 FWDS(Realty)
 
 // definitions of other types

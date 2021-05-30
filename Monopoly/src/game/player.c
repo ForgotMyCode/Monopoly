@@ -6,11 +6,13 @@
 #include <game/game.h>
 #include <game/realty.h>
 #include <config.h>
+#include <game/jail.h>
 
 void Player_super(Player* player) {
 	player->playerType = PlayerType_UNKNOWN;
 	player->playerController.asAnything = NULL;
 	player->ownedRealties = ArrayList_new(sizeof(Realty*));
+	player->ownedRails = ArrayList_new(sizeof(Rail*));
 	player->netWorth = 0;
 	player->money = 0;
 	player->id = -1;
@@ -28,9 +30,15 @@ void Player_delete(Player* player) {
 			Realty* const realty = *((Realty**)ArrayList_get(player->ownedRealties, i));
 			Realty_delete(realty);
 		}
+
+		for (int i = 0; i < player->ownedRails->size; ++i) {
+			Rail* const rail = *((Rail**)ArrayList_get(player->ownedRails, i));
+			Rail_delete(rail);
+		}
 	}
 
 	ArrayList_delete(player->ownedRealties);
+	ArrayList_delete(player->ownedRails);
 
 	if (player->playerType == PlayerType_BOT) {
 		Bot_delete(player);
@@ -74,6 +82,16 @@ void Player_onRealtyEvent(Player* player, Game* game, Realty* realty) {
 	assert(false);
 }
 
+void Player_onRailroadEvent(Player* player, Game* game, Rail* rail) {
+	if (player->playerType == PlayerType_BOT) {
+		Bot_onRailroadEvent(player, game, rail);
+		return;
+	}
+
+	printf("[ERROR] Invalid player type!\n");
+	assert(false);
+}
+
 JailEscapeOption Player_onJailEvent(Player* player, Game* game) {
 	if (player->playerType == PlayerType_BOT) {
 		return Bot_onJailEvent(player, game);
@@ -81,4 +99,6 @@ JailEscapeOption Player_onJailEvent(Player* player, Game* game) {
 
 	printf("[ERROR] Invalid player type!\n");
 	assert(false);
+
+	return JAIL_ESCAPE_OPTION_UNDEFINED;
 }

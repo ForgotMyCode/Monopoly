@@ -37,7 +37,11 @@ bool Game_tryTransaction(Player* from,  Player* to, long amount);
 
 void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty);
 
+void Game_playerReceiveRailroad(Game* game, Player* player, Rail* rail);
+
 void Game_purchaseRealty(Game* game, Player* player, Realty* realty);
+
+void Game_purchaseRailroad(Game* game, Player* player, Rail* rail);
 
 void Game_onBankrupt(Game* game, Player* player, Player* creditor);
 

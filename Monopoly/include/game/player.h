@@ -7,6 +7,7 @@
 #include <util/arraylist.h>
 #include <game/bot.h>
 #include <game/realty.h>
+#include <game/rail.h>
 
 union PlayerController {
 	void* asAnything;
@@ -17,6 +18,7 @@ struct Player {
 	PlayerType playerType;
 	PlayerController playerController;
 	ArrayList* ownedRealties;
+	ArrayList* ownedRails;
 	long money;
 	long netWorth;
 	int position;
@@ -44,5 +46,7 @@ void Player_printOnBoard(Player* player, int position);
 int Player_throwDice(Player* player, bool* isDouble);
 
 void Player_onRealtyEvent(Player* player, Game* game, Realty* realty);
+
+void Player_onRailroadEvent(Player* player, Game* game, Rail* rail);
 
 JailEscapeOption Player_onJailEvent(Player* player, Game* game);

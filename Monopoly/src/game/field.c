@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
-#include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 
 #include <game/field.h>
@@ -95,4 +92,18 @@ void Effect_goToJail(Field* field, Game* game, Player* player) {
 
 void Effect_visitJail(Field* field, Game* game, Player* player) {
 	
+}
+
+void Effect_railroad(Field* field, Game* game, Player* player) {
+	printf(">> Applying effect of railroad...\n");
+	Rail* rail = (Rail*)field->extra;
+	assert(rail);
+
+	if (rail->owner != NULL && player != rail->owner) {
+		assert(rail->owner->ownedRails->size - 1 >= 0);
+		if (!Game_tryTransaction(player, rail->owner, rail->rent[rail->owner->ownedRails->size - 1])) {
+			Game_onBankrupt(game, player, rail->owner);
+		}
+	}
+	Player_onRailroadEvent(player, game, rail);
 }
