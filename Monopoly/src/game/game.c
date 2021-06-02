@@ -179,6 +179,7 @@ void Game_playerReceiveRealty(Game* game, Player* player, Realty* realty) {
 	if (player != NULL) {
 		ArrayList_add(player->ownedRealties, &realty);
 		player->netWorth += realty->price;
+		++(player->ownedRealtiesColorCounts[realty->color]);
 	}
 }
 

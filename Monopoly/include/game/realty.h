@@ -4,6 +4,7 @@
 
 struct Realty {
 	char* name;
+	Color color;
 	long price;
 	long pricePerHouse;
 	long rent[5];

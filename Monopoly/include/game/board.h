@@ -25,3 +25,5 @@ void Board_print(Board* field, const BoardPrintMode printMode);
 void Board_printForPlayer(Board* board, Player* player);
 
 int Board_getJailIndex();
+
+int Board_getColorCount(Color color);

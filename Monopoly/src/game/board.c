@@ -6,8 +6,10 @@
 #include <game/realty.h>
 #include <util/input.h>
 #include <util/arraylist.h>
+#include <util/mathutils.h>
 
 const int jailIndex = 10;
+const int colorCounts[] = {2, 3, 3, 3, 3, 3, 3, 2};
 
 Board* Board_new(char* filename) {
 	Board* board = malloc(sizeof(Board));
@@ -18,12 +20,15 @@ Board* Board_new(char* filename) {
 	}
 
 	int realtyIndices[] = {1, 3, 6, 8, 9, 11, 13, 14, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32, 34, 37, 39};
+	int realtyColors[] =  {0, 0, 1, 1, 1,  2,  2,  2,  3,  3,  3,  4,  4,  4,  5,  5,  5,  6,  6,  6,  7,  7};
 	
 	board->realties = parseCSV(filename);
 	assert(board->realties->size == sizeof(realtyIndices) / sizeof(*realtyIndices));
 
 	for (int i = 0; i < board->realties->size; ++i) {
 		Realty* realty = *((Realty**)ArrayList_get(board->realties, i));
+		realty->color = realtyColors[i];
+
 		Field_delete(board->fields[realtyIndices[i]]);
 		board->fields[realtyIndices[i]] = Field_new(FieldType_REALTY, realty->name, realty, Effect_realty);
 	}
@@ -185,4 +190,10 @@ void Board_printForPlayer(Board* board, Player* player) {
 
 int Board_getJailIndex() {
 	return jailIndex;
+}
+
+int Board_getColorCount(Color color) {
+	assert(color >= 0 && color < ARRAY_LENGTH(colorCounts));
+
+	return colorCounts[color];
 }

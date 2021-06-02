@@ -62,7 +62,21 @@ void Effect_realty(Field* field, Game* game, Player* player) {
 	printf(">> Applying effect of realty...\n");
 	Realty* realty = (Realty*)field->extra;
 	if (realty->owner != NULL && player != realty->owner) {
-		if (!Game_tryTransaction(player, realty->owner, realty->rent[0])) {
+		long rent = 0;
+		const int ownedRealtiesOfThisColor = realty->owner->ownedRealtiesColorCounts[realty->color];
+		const int totalRealtiesOfThisColor = Board_getColorCount(realty->color);
+		printf("[DBG] %d / %d\n", ownedRealtiesOfThisColor, totalRealtiesOfThisColor);
+
+		if (ownedRealtiesOfThisColor < totalRealtiesOfThisColor) {
+			rent = realty->rent[0];
+		}
+		else {
+			printf(">> Double rent!\n");
+			assert(ownedRealtiesOfThisColor == totalRealtiesOfThisColor);
+			rent = 2L * realty->rent[0];
+		}
+
+		if (!Game_tryTransaction(player, realty->owner, rent)) {
 			Game_onBankrupt(game, player, realty->owner);
 		}
 	}
@@ -125,7 +139,7 @@ void Effect_utility(Field* field, Game* game, Player* player) {
 			multiplier = Constant_utilityMultiplier2;
 		}
 		else {
-			printf("[ERROR] Invalid amount of owned utilities: %lu\n", utility->owner->ownedUtilities->size);
+			printf("[ERROR] Invalid amount of owned utilities: %lu\n", (unsigned long) utility->owner->ownedUtilities->size);
 			assert(false);
 		}
 

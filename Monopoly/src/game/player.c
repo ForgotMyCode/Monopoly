@@ -23,6 +23,9 @@ void Player_super(Player* player) {
 	player->failedJailEscapes = 0;
 	player->isInJail = false;
 	player->skipTurn = false;
+	for (int i = 0; i < 8; ++i) {
+		player->ownedRealtiesColorCounts[i] = 0;
+	}
 }
 
 void Player_delete(Player* player) {

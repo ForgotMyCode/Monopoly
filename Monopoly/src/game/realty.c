@@ -9,6 +9,7 @@ Realty* Realty_new() {
 	assert(realty);
 
 	realty->name = NULL;
+	realty->color = -1;
 	realty->price = -1;
 	realty->pricePerHouse = -1;
 	realty->rent[0] = -1;

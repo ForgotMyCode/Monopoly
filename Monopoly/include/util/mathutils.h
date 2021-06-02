@@ -7,3 +7,7 @@
 #ifndef max
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 #endif
+
+#ifndef ARRAY_LENGTH
+#define ARRAY_LENGTH(arr) (sizeof((arr)) / sizeof(*(arr)))
+#endif

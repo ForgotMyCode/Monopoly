@@ -34,3 +34,5 @@ typedef unsigned char BoardPrintMode;
 typedef unsigned char FieldType;
 
 typedef unsigned char JailEscapeOption;
+
+typedef int Color;

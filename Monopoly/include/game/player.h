@@ -20,6 +20,7 @@ struct Player {
 	ArrayList* ownedRealties;
 	ArrayList* ownedRails;
 	ArrayList* ownedUtilities;
+	int ownedRealtiesColorCounts[8];
 	long money;
 	long netWorth;
 	int position;
