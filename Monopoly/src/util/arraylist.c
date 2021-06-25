@@ -1,8 +1,9 @@
+#include <util/arraylist.h>
+
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
 
-#include <util/arraylist.h>
 
 typedef unsigned char byte;
 

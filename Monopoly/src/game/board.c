@@ -1,7 +1,8 @@
+#include <game/board.h>
+
 #include <assert.h>
 #include <stdlib.h>
 
-#include <game/board.h>
 #include <game/field.h>
 #include <game/realty.h>
 #include <util/arraylist.h>

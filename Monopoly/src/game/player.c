@@ -1,7 +1,8 @@
+#include <game/player.h>
+
 #include <assert.h>
 #include <stdio.h>
 
-#include <game/player.h>
 #include <config.h>
 #include <game/bot.h>
 #include <game/game.h>

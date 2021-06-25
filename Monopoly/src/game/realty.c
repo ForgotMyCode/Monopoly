@@ -1,8 +1,8 @@
+#include <game/realty.h>
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <game/realty.h>
 
 Realty* Realty_new() {
 	Realty* realty = malloc(sizeof(Realty));

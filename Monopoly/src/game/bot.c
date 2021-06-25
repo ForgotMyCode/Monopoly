@@ -1,7 +1,8 @@
+#include <game/bot.h>
+
 #include <assert.h>
 #include <stdlib.h>
 
-#include <game/bot.h>
 #include <config.h>
 #include <game/dice.h>
 #include <game/jail.h>

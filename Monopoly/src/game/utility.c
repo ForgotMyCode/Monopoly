@@ -1,9 +1,10 @@
+#include <game/utility.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
 
-#include <game/utility.h>
 #include <config.h>
 
 Utility* Utility_new(const char* name) {

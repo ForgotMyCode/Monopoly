@@ -1,9 +1,10 @@
+#include <game/rail.h>
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <game/rail.h>
 #include <config.h>
 
 Rail* Rail_new(const char* name) {

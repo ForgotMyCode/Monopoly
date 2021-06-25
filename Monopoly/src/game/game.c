@@ -1,8 +1,9 @@
+#include <game/game.h>
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <game/game.h>
 #include <config.h>
 #include <game/board.h>
 #include <game/field.h>
