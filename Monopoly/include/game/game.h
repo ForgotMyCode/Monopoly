@@ -2,11 +2,6 @@
 #include <stdbool.h>
 
 #include <core.h>
-#include <game/player.h>
-#include <game/board.h>
-#include <game/realty.h>
-#include <game/rail.h>
-#include <game/utility.h>
 
 struct Game {
 	int playerCount;

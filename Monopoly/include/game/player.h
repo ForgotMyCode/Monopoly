@@ -3,11 +3,6 @@
 #include <stdbool.h>
 
 #include <core.h>
-#include <game/game.h>
-#include <util/arraylist.h>
-#include <game/bot.h>
-#include <game/realty.h>
-#include <game/rail.h>
 
 union PlayerController {
 	void* asAnything;

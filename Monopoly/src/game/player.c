@@ -1,12 +1,12 @@
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
 #include <game/player.h>
+#include <config.h>
 #include <game/bot.h>
 #include <game/game.h>
-#include <game/realty.h>
-#include <config.h>
 #include <game/jail.h>
+#include <game/realty.h>
 
 void Player_super(Player* player) {
 	player->playerType = PlayerType_UNKNOWN;

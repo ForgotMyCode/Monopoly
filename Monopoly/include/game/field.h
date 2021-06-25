@@ -2,10 +2,6 @@
 #include <stdio.h>
 
 #include <core.h>
-#include <game/game.h>
-#include <game/player.h>
-#include <game/realty.h>
-
 
 static const FieldType FieldType_UNDEFINED = 0;
 static const FieldType FieldType_REALTY = 1;

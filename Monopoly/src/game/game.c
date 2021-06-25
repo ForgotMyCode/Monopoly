@@ -1,10 +1,17 @@
 #include <assert.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <game/game.h>
 #include <config.h>
+#include <game/board.h>
+#include <game/field.h>
 #include <game/jail.h>
+#include <game/player.h>
+#include <game/rail.h>
+#include <game/realty.h>
+#include <game/utility.h>
+#include <util/arraylist.h>
 
 Game* Game_new(const int playerCount) {
 	Game* game = malloc(sizeof(Game));

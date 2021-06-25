@@ -1,7 +1,6 @@
 #pragma once
 
 #include <core.h>
-#include <game/player.h>
 
 struct Rail {
 	char* name;

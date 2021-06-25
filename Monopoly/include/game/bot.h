@@ -2,7 +2,6 @@
 #include <stdbool.h>
 
 #include <core.h>
-#include <game/player.h>
 
 struct Bot {
 	void* DELETEME;

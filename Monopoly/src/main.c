@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <game/game.h>
-#include <util/input.h>
 #include <game/bot.h>
+#include <game/game.h>
 #include <util/arraylist.h>
+#include <util/input.h>
 #include <util/random.h>
 
 int main(void) {

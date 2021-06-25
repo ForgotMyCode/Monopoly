@@ -4,8 +4,8 @@
 #include <game/board.h>
 #include <game/field.h>
 #include <game/realty.h>
-#include <util/input.h>
 #include <util/arraylist.h>
+#include <util/input.h>
 #include <util/mathutils.h>
 
 const int jailIndex = 10;

@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include <core.h>
-#include <util/arraylist.h>
 
 void readInt(int* n);
 

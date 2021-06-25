@@ -1,13 +1,13 @@
+#include <assert.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <assert.h>
 #include <string.h>
 
-#include <util/arraylist.h>
 #include <util/input.h>
-#include <game/realty.h>
 #include <config.h>
+#include <game/realty.h>
+#include <util/arraylist.h>
 #include <util/random.h>
 
 void readInt(int* n) {

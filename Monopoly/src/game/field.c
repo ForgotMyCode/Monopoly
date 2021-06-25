@@ -1,14 +1,18 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include <string.h>
 
 #include <game/field.h>
+#include <config.h>
+#include <game/game.h>
+#include <game/player.h>
+#include <game/rail.h>
+#include <game/realty.h>
+#include <game/utility.h>
 #include <util/arraylist.h>
 #include <util/input.h>
-#include <config.h>
 #include <util/mathutils.h>
-#include <game/utility.h>
 
 Field* Field_new(FieldType fieldType, char* label, void* extra, void (*apply)(Field* field, Game* game, Player* player)) {
 	Field* field = malloc(sizeof(Field));

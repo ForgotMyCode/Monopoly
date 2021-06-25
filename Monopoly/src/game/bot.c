@@ -2,10 +2,12 @@
 #include <stdlib.h>
 
 #include <game/bot.h>
-#include <game/player.h>
+#include <config.h>
 #include <game/dice.h>
 #include <game/jail.h>
-#include <config.h>
+#include <game/player.h>
+#include <game/rail.h>
+#include <game/realty.h>
 #include <game/utility.h>
 
 Player* Bot_new(int id) {

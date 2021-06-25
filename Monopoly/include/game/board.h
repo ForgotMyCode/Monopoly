@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 #include <core.h>
-#include <game/field.h>
 
 #define BOARD_SIZE 40
 
